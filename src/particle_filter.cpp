@@ -249,7 +249,7 @@ void ParticleFilter::resample() {
 	// resample particles with probability proportional to their weight
 	random_device rd;
 	mt19937 gen(rd());
-	discrete_distribution<double> d(weights.begin(), weights.end());
+	discrete_distribution<int> d(weights.begin(), weights.end());
 	vector<Particle> resamples;
 	for (size_t i = 0; i < num_particles; ++i) {
 		resamples.push_back(particles[d(gen)]);
