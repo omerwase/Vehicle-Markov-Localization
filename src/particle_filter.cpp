@@ -24,6 +24,8 @@
 
 using namespace std;
 
+default_random_engine gen;
+
 void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	// TODO: Set the number of particles. Initialize all particles to first position (based on estimates of 
 	//   x, y, theta and their uncertainties from GPS) and all weights to 1. 
@@ -48,7 +50,6 @@ void ParticleFilter::init(double x, double y, double theta, double std[]) {
 	double std_theta = std[2];
 	
 	// create Gaussian distributions for x, y and theta, with std as noise
-	default_random_engine gen;
 	normal_distribution<double> dist_x(x, std_x);
 	normal_distribution<double> dist_y(y, std_y);
 	normal_distribution<double> dist_theta(theta, std_theta);
@@ -82,7 +83,6 @@ void ParticleFilter::prediction(double delta_t, double std_pos[], double velocit
 	double std_theta = std_pos[2];
 	
 	// create Gaussian distributions for noise values, with mean 0
-	default_random_engine gen;
 	normal_distribution<double> dist_x(0, std_x);
 	normal_distribution<double> dist_y(0, std_y);
 	normal_distribution<double> dist_theta(0, std_theta);
