@@ -66,6 +66,7 @@ Increasing the number of particles leads to better accuracy; however, with dimin
 * cmake >= 3.5
 * make >= 4.1 (Linux, Mac), 3.81 (Windows)
 * gcc/g++ >= 5.4
+* [uWebSockets](https://github.com/uNetworking/uWebSockets)
 
 For detailed instructions on installing the dependencies see [Udacity's original project repo](https://github.com/udacity/CarND-Kidnapped-Vehicle-Project).
 
