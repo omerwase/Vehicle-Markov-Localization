@@ -16,12 +16,12 @@ This flowchart illustrates the various parts of the particle filter implementati
 ![flowchart][image1]
 
 #### 1) Initialization
-During intialization the number of particles is set. Each particle is initialized based on a Gaussian distribution, centred around GPS coordinates of the car's starting position. GPS coordinates are only used to initialize the particle filter. Beyond this they are not used in localization since GPS has a lower-than-desired accuracy.
+During initialization the number of particles is set. Each particle is initialized based on a Gaussian distribution, centred around GPS coordinates of the car's starting position. GPS coordinates are only used to initialize the particle filter. Beyond this they are not used in localization since GPS has a lower-than-desired accuracy.
 
-Each particle represents a prediction of where the car might be located. This prediction is refined through Bayesian inference, given map (landmarks) and sensor (LIDAR) data, in the folowing steps.
+Each particle represents a prediction of where the car might be located. This prediction is refined through Bayesian inference, given map (landmarks) and sensor (LIDAR) data, in the following steps.
 
 #### 2) Prediction Step
-During prediction, the car's velocity, yaw, and yaw rate are used to update each particle's position accordingly. Gaussian noise is added to the particle's position to model uncertianty during motion.
+During prediction, the car's velocity, yaw, and yaw rate are used to update each particle's position accordingly. Gaussian noise is added to the particle's position to model uncertainty during motion.
 
 #### 3) Update Step
 The update steps involves determining particle weights (their likelihood of representing the car's actual position). This is done by comparing observations from the car's LIDAR sensor to known landmarks in the surrounding area. 
@@ -30,8 +30,8 @@ The following steps are performed for each particle
 
 1) All observations are converted from the car's coordinate system to a gobal (map) coordinate system, based on the particle's position.
 2) Landmarks expected within LIDAR range of the particle are selected for comparison.
-3) Each observation is assosiated with the closest (nearest neighbor) expected landmark.
-4) The particle's weight is determined using multi-variate Gaussian distribution. This is measure of how well associated landmarks coorespond to LIDAR measurements if the particle represented the car's location.
+3) Each observation is associated with the closest (nearest neighbor) expected landmark.
+4) The particle's weight is determined using multi-variate Gaussian distribution. This is measure of how well associated landmarks correspond to LIDAR measurements if the particle represented the car's location.
 
 The figure below is an example of landmark association based on nearest neighbour:
 
@@ -50,13 +50,14 @@ The table below shows the RMSE calculated using filter results and a ground trut
 
 | # of Particles |     RMSE (x, y, yaw)     |  System Time Elapsed |
 |:--------------:|:------------------------:|:--------------------:|
-| 10             | (0.159, 0.137, 0.005)    | 	49.94s            :|
-| 50             | (0.121, 0.112, 0.004)    | 	49.26s            :|
-| 100            | (0.114, 0.104, 0.004)    | 	50.60s            :|
-| 250            | (0.111, 0.103, 0.004)    | 	52.48s            :|
-| 1000           | (0.108, 0.101, 0.003)    | 	52.06s            :|
-| 3000           | (0.108, 0.102, 0.003)    | 	103.62s           :|
+| 10             | (0.159, 0.137, 0.005)    | 	49.94s             |
+| 50             | (0.121, 0.112, 0.004)    | 	49.26s             |
+| 100            | (0.114, 0.104, 0.004)    | 	50.60s             |
+| 250            | (0.111, 0.103, 0.004)    | 	52.48s             |
+| 1000           | (0.108, 0.101, 0.003)    | 	52.06s             |
+| 3000           | (0.108, 0.102, 0.003)    | 	103.62s            |
 
+Increasing the number of particles leads to better accuracy; however, with diminishing returns and increased runtimes. For example increasing the number of particles from 1000 to 3000 has a negligible effect on accuracy but almost doubles the runtime. In order to be performant in real-world applications the number of particles must be selected carefully. In the case of this simulation a good range would be 100 to 1000 particles. 
 
 ---
 ### Dependencies
