@@ -2,6 +2,8 @@
 
 [//]: # (Image References)
 [image1]: ./images/algorithm_flowchart.png
+[image2]: ./images/landmarks.png
+[image3]: ./images/weight_equation.png
 
 ### Overview
 
@@ -9,23 +11,37 @@ This project implements markov localization using map landmarks and LIDAR sensor
 
 ---
 ### Methodology and Implementation
-
 This flowchart illustrates the various parts of the particle filter implementation, with details below.
 
-![flowchart][image1] 
+![flowchart][image1]
 
-#### Initialization
+#### 1)Initialization
 During intialization the number of particles is set. Each particle is initialized based on a Gaussian distribution, centred around GPS coordinates of the car's starting position. GPS coordinates are only used to initialize the particle filter. Beyond this they are not used in localization since GPS has a lower-than-desired accuracy.
 
 Each particle represents a prediction of where the car might be located. This prediction is refined through Bayesian inference, given map (landmarks) and sensor (LIDAR) data, in the folowing steps.
 
-#### Prediction Step
+#### 2) Prediction Step
+During prediction, the car's velocity, yaw, and yaw rate are used to update each particle's position accordingly. Gaussian noise is added to the particle's position to model uncertianty during motion.
 
+#### 3) Update Step
+The update steps involves determining particle weights (their likelihood of representing the car's actual position). This is done by comparing observations from the car's LIDAR sensor to known landmarks in the surrounding area. 
 
-#### Update Step
+The following steps are performed for each particle
 
+1) All observations are converted from the car's coordinate system to a gobal (map) coordinate system, based on the particle's position
+2) Landmarks expected within LIDAR range of the particle are selected for comparison
+3) Each observation is assosiated with the closest (nearest neighbor) expected landmark
+4) The particle's weight is determined using multi-variate Gaussian distribution. This is measure of how well associated landmarks coorespond to LIDAR measurements if the particle represented the car's location.
 
-#### Resample
+The figure below is an example of landmark association based on nearest neighbour
+
+![landmarks][image2]
+
+Equation for weight calculation using multi-variate Gaussian distribution (given landmarks and sensor data).
+
+![weight_equation][image3]
+
+#### 4) Resample
 
 
 ---
