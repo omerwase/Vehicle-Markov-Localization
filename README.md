@@ -28,24 +28,34 @@ The update steps involves determining particle weights (their likelihood of repr
 
 The following steps are performed for each particle
 
-1) All observations are converted from the car's coordinate system to a gobal (map) coordinate system, based on the particle's position
-2) Landmarks expected within LIDAR range of the particle are selected for comparison
-3) Each observation is assosiated with the closest (nearest neighbor) expected landmark
+1) All observations are converted from the car's coordinate system to a gobal (map) coordinate system, based on the particle's position.
+2) Landmarks expected within LIDAR range of the particle are selected for comparison.
+3) Each observation is assosiated with the closest (nearest neighbor) expected landmark.
 4) The particle's weight is determined using multi-variate Gaussian distribution. This is measure of how well associated landmarks coorespond to LIDAR measurements if the particle represented the car's location.
 
-The figure below is an example of landmark association based on nearest neighbour
+The figure below is an example of landmark association based on nearest neighbour:
 
 ![landmarks][image2]
 
-Equation for weight calculation using multi-variate Gaussian distribution (given landmarks and sensor data).
+Equation for weight calculation using multi-variate Gaussian distribution (given landmarks and sensor data):
 
 ![weight_equation][image3]
 
 #### 4) Resample
-
+All particles are resampled (with replacement) relative to their weight using a discrete distribution. The higher a particle's weight, the more likely it is to be selected. This overtime drops particles with a low chance of representing the car's position, increasing particle density around the car.
 
 ---
 ### Results
+The table below shows the RMSE calculated using filter results and a ground truth of the car's position:
+
+| # of Particles |     RMSE (x, y, yaw)     |  System Time Elapsed |
+|:--------------:|:------------------------:|:--------------------:|
+| 10             | (0.159, 0.137, 0.005)    | 	49.94s            :|
+| 50             | (0.121, 0.112, 0.004)    | 	49.26s            :|
+| 100            | (0.114, 0.104, 0.004)    | 	50.60s            :|
+| 250            | (0.111, 0.103, 0.004)    | 	52.48s            :|
+| 1000           | (0.108, 0.101, 0.003)    | 	52.06s            :|
+| 3000           | (0.108, 0.102, 0.003)    | 	103.62s           :|
 
 
 ---
